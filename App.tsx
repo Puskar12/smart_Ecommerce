@@ -5,13 +5,14 @@ import MainAppStack from "./src/navigations/MainAppStack";
 import { useFonts } from "expo-font";
 import { Provider } from "react-redux";
 import { persistor, store } from "./src/store/store";
-import React from "react";
+import React, { useEffect } from "react";
 import FlashMessage from "react-native-flash-message";
 import { s, vs } from "react-native-size-matters";
 import i18n from "./src/localization/i18n";
 import { I18nextProvider } from "react-i18next";
 import { PersistGate } from "redux-persist/integration/react";
 import { AppColors } from "./src/styles/colors";
+import { dataUploadInFirebase } from "./src/config/firebase";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,6 +20,9 @@ export default function App() {
     "Orbitron-Medium": require("./src/assets/fonts/Orbitron-Medium.ttf"),
     "Delius-Regular": require("./src/assets/fonts/Delius-Regular.ttf"),
   });
+//  useEffect(() => {
+//    dataUploadInFirebase();
+// }, []);
 
   if (!fontsLoaded) {
     return <ActivityIndicator size={"large"} color={AppColors.primary} />;

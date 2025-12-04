@@ -2,9 +2,7 @@ import {  StatusBar, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import React, { FC, ReactNode } from 'react'
 import { AppColors } from "../../styles/colors";
 import { IS_Android } from "../../constants/constants";
-import {
-  SafeAreaView
-} from 'react-native-safe-area-context';
+import {  SafeAreaView } from 'react-native-safe-area-context';
 
 interface AppSaveViewProps{
  children: ReactNode,
@@ -26,7 +24,7 @@ const styles = StyleSheet.create({
   safeAreaView:{
     flex:1,
     backgroundColor: AppColors.white,
-    paddingTop: IS_Android? StatusBar.currentHeight||0:0,
+    paddingTop: IS_Android?0:0,
   },  
   container:{
     flex:1,
