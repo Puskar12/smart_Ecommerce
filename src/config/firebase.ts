@@ -11,12 +11,7 @@ import { products } from '../data/products';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCcvxODE7i4hCGFRzij-qZd9H652Cnn2NM",
-  authDomain: "smart-e-commerce-app-c8c41.firebaseapp.com",
-  projectId: "smart-e-commerce-app-c8c41",
-  storageBucket: "smart-e-commerce-app-c8c41.firebasestorage.app",
-  messagingSenderId: "566229861406",
-  appId: "1:566229861406:web:e4656033e16d006bb55a0f"
+  //use your own 
 };
 
 // Initialize Firebase
