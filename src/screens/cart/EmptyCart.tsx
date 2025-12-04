@@ -8,9 +8,13 @@ import AppButton from '../../components/buttons/AppButton'
 import { AppFonts } from '../../styles/fonts'
 import { useNavigation } from '@react-navigation/native'
 import { t } from 'i18next'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { RootStackParamList } from '../../navigations/types'
+
+type CartScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>
 
 const EmptyCart = () => {
-  const navigate = useNavigation()
+  const navigate = useNavigation<CartScreenNavigationProp>()
   return (
     <View style={styles.container} >
       <MaterialCommunityIcons

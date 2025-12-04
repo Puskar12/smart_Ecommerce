@@ -39,7 +39,12 @@ export default function App() {
   } persistor={persistor}>
           <I18nextProvider i18n={i18n}>
           <NavigationContainer>
-            <StatusBar style="auto" />
+            <StatusBar 
+  style="dark"          // or "light" depending on your app background
+  backgroundColor={AppColors.background || "#ffffff"} // ensure contrast
+  translucent={false}   // prevents overlapping with content
+/>
+
             <FlashMessage position={"top"} style={styles.flashContainer} />
             <MainAppStack />
           </NavigationContainer>

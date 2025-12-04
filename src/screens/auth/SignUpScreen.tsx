@@ -14,49 +14,46 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import { showMessage } from "react-native-flash-message";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/reducers/userSlice";
 
 import { useTranslation } from "react-i18next";
+import { doc, setDoc } from "firebase/firestore";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigations/types";
 
-
-
-
-
+type AuthScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>
 
 const SignUpScreen = () => {
   const { t } = useTranslation();
   const schema = yup
-.object({
-    username: yup
-      .string()
-      .required(t("sign_up_username_required"))
-      .min(5, t("sign_up_username_min_length"))
-      .matches(/^[a-z A-Z]+$/, t("sign_up_username_format")),
+    .object({
+      username: yup
+        .string()
+        .required(t("sign_up_username_required"))
+        .min(5, t("sign_up_username_min_length"))
+        .matches(/^[a-z A-Z]+$/, t("sign_up_username_format")),
       email: yup
         .string()
         .email(t("sign_up_email_invalid"))
         .required(t("sign_up_email_required")),
-    password: yup
-    .string()
-    .required(t("sign_up_password_required"))
-    .min(6, t("sign_up_password_min_length"))
-    .matches(/[a-z]/, t("sign_up_password_lowercase"))
-    .matches(/[A-Z]/, t("sign_up_password_upercase"))
-    .matches(/[0-9]/, t("sign_up_password_number"))
-    .matches(
-        /[!@#$%^&*(),.?":{}|<>]/,
-        t("sign_up_password_character")
-      ),
+      password: yup
+        .string()
+        .required(t("sign_up_password_required"))
+        .min(6, t("sign_up_password_min_length"))
+        .matches(/[a-z]/, t("sign_up_password_lowercase"))
+        .matches(/[A-Z]/, t("sign_up_password_upercase"))
+        .matches(/[0-9]/, t("sign_up_password_number"))
+        .matches(/[!@#$%^&*(),.?":{}|<>]/, t("sign_up_password_character")),
     })
-  .required();
+    .required();
   type FormData = yup.InferType<typeof schema>;
   const { control, handleSubmit } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthScreenNavigationProp>();
   const dispatch = useDispatch();
 
   const onSignUpPress = async (data: FormData) => {
@@ -68,11 +65,16 @@ const SignUpScreen = () => {
       );
       Alert.alert(t("sign_up_success"));
       navigation.navigate("MainAppbottomTabs");
-      console.log(JSON.stringify(userCredential, null, 3));
+      console.log(JSON.stringify(userCredential.user, null, 3));
 
       const userDataObj = {
         uid: userCredential.user.uid,
+        userName: data.username,
+        email: data.email,
+        createdAt: Date.now(),
       };
+
+      await setDoc(doc(db, "users", userCredential.user.uid), userDataObj)
 
       dispatch(setUserData(userDataObj));
     } catch (error: any) {

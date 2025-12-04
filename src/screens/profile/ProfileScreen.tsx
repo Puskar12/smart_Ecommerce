@@ -17,11 +17,21 @@ import { RootStackParamList } from "../../navigations/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
-type CartScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+type ProfileScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const ProfileScreen = () => {
-  const navigation = useNavigation<CartScreenNavigationProp>();
+  const {userData} = useSelector((state: RootState )=>state.userSlice)
+  const userName = (userData: any) =>{
+    if (userData){
+      return userData.userName;
+    }else{
+      return ""
+    }
+  }
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
   const { t } = useTranslation();
   const handleLogout = async() =>{
     await AsyncStorage.removeItem("USER_DATA")
@@ -32,7 +42,7 @@ const ProfileScreen = () => {
     <AppSaveView>
       <HomeHeader />
       <View style={styles.greetingsContainer}>
-        <AppText style={styles.headingText}>{t("profile_welcome", {"userName":"Puskar"})}</AppText>
+        <AppText style={styles.headingText}>{t("profile_welcome", {"userName":userName(userData)})}</AppText>
         <AppText style={styles.bodyText}>{t("profile_welcome_text")}</AppText>
       </View>
       <View style={styles.buttonContainer}>

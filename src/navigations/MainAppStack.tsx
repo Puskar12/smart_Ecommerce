@@ -5,11 +5,14 @@ import AuthStack from "./AuthStack";
 import MainAppBottomTabs from "./MainAppBottomTabs";
 import CheckoutScreen from "../screens/cart/CheckOutScreen";
 import MyOrdersScreen from "../screens/profile/MyOrdersScreen";
+import { setUserData } from "../store/reducers/userSlice";
 
 import { useTranslation } from "react-i18next";
 import { AppColors } from "../styles/colors";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
+import { getDoc, doc } from "firebase/firestore";
+import { useDispatch } from "react-redux";
 
 
 
@@ -17,15 +20,21 @@ const Stack = createStackNavigator();
 
 const MainAppStack = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [userData, setUserData] = useState<object | null>(null)
+  const [userData, setUserDatas] = useState<object | null>(null)
+  const dispatch = useDispatch()
   const { t } = useTranslation();
 
   useEffect(()=>{
-    onAuthStateChanged(auth, (userDataFromFireBase) => {
+    onAuthStateChanged(auth, async(userDataFromFireBase) => {
       if (userDataFromFireBase){
          console.log("User is Signed In");
-        setIsLoading(false);
-        setUserData(userDataFromFireBase);
+         const userDoc = await getDoc(doc(db, "users", "6O2aU1NNulSiMyo0N63WfYi6g2m1"));
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+      setUserDatas(data)
+      dispatch(setUserData(data));
+    }
+         setIsLoading(false);
       } else {
         console.log("User is Signed Out");
         setIsLoading(false);

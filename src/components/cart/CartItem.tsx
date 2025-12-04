@@ -27,7 +27,6 @@ const CartItem:FC<CartItemProps> = ({
   onReducePress,
   onDeletePress,
 }) => {
-  console.log(price, "in cart item")
   return (
     <View style={styles.container}>
       <View style={styles.imageComtainer}>

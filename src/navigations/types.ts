@@ -6,6 +6,6 @@ export type RootStackParamList = {
   CheckoutScreen: undefined;
   SignInScreen: undefined;
   SignUpScreen: undefined;
-  MainAppBottomTabs: undefined;
+  MainAppbottomTabs: undefined;
   MyOrdersScreen: undefined;
 }; 

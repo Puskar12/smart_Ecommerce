@@ -14,14 +14,17 @@ import * as yup from "yup"
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import { showMessage } from "react-native-flash-message";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/reducers/userSlice";
 
 import { useTranslation } from "react-i18next";
+import { doc, getDoc } from "firebase/firestore";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigations/types";
 
-
+type AuthScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>
 
 const SignInScreen = () => {
 
@@ -52,7 +55,7 @@ type FormData = yup.InferType<typeof schema>;
       password:__DEV__? "12345678" : "",
     },
   }) 
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthScreenNavigationProp>();
 
   const dispatch = useDispatch()
 
@@ -63,13 +66,26 @@ type FormData = yup.InferType<typeof schema>;
         data.email,
         data.password
       )
-      navigation.navigate("MainAppbottomTabs")
       // console.log(JSON.stringify(userCredential, null, 3));
-      const userDataObj = {
-        uid: userCredential.user.uid
-      }
+      // const userDataObj = {
+      //   uid: userCredential.user.uid
+      // }
+      const uid = userCredential.user.uid;
+      const userDocRef = doc(db, "users", uid);
+    const userSnap = await getDoc(userDocRef);
 
+    let userDataObj;
+
+    if (userSnap.exists()) {
+      // 3. If username is saved in Firestore → use it
+      userDataObj = userSnap.data();
+    } else {
+      // Fallback in case document doesn't exist
+      userDataObj = { uid };
+    }
+      
       dispatch(setUserData(userDataObj))
+      navigation.navigate("MainAppbottomTabs")
       
     } catch (error : any) {
       let errorMessage = "";

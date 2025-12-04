@@ -19,12 +19,14 @@ import {
 } from "../../store/reducers/cartSlice";
 
 import { useTranslation } from "react-i18next";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigations/types";
 
-
+type CartScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>
 
 const CartScreen = () => {
   const { t } = useTranslation();
-  const navigate = useNavigation();
+  const navigate = useNavigation<CartScreenNavigationProp>();
   const { items } = useSelector((state: RootState) => state.cartSlice);
   const dispatch = useDispatch();
   const TotalItemsPrice = items.reduce((acc, item)=> acc+item.sum,0)
