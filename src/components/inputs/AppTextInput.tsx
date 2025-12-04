@@ -18,22 +18,31 @@ interface AppTextInputProps {
   keyboardType?: "default" | "numeric" | "email-address";
   style?: StyleProp<TextStyle>;
 }
-const AppTextInput:FC<AppTextInputProps> = ({
+const AppTextInput: FC<AppTextInputProps> = ({
   value,
   placeholder,
   onChangeText,
   secureTextEntry,
   keyboardType,
-  style
+  style,
 }) => {
   return (
     <TextInput
       value={value}
       placeholder={placeholder}
+      placeholderTextColor={AppColors.primary}
       onChangeText={onChangeText}
       secureTextEntry={secureTextEntry}
       keyboardType={keyboardType}
-      style={[styles.input, style]}
+      style={[
+        styles.input,
+        {
+          color: AppColors.primary, // 🔥 FIX 2 – typed text becomes visible
+          includeFontPadding: false, // 🔥 FIX 3 – fixes secureTextEntry invisible text bug
+          textAlignVertical: "center", // 🔥 FIX 4 – fixes vertical clipping
+        },
+        style,
+      ]}
     />
   );
 };

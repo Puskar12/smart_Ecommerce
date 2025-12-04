@@ -1,7 +1,10 @@
-import { SafeAreaView, StatusBar, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import {  StatusBar, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import React, { FC, ReactNode } from 'react'
 import { AppColors } from "../../styles/colors";
 import { IS_Android } from "../../constants/constants";
+import {
+  SafeAreaView
+} from 'react-native-safe-area-context';
 
 interface AppSaveViewProps{
  children: ReactNode,
