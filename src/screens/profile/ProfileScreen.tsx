@@ -15,6 +15,8 @@ import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RootStackParamList } from "../../navigations/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 type CartScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -23,6 +25,7 @@ const ProfileScreen = () => {
   const { t } = useTranslation();
   const handleLogout = async() =>{
     await AsyncStorage.removeItem("USER_DATA")
+    await signOut(auth)
     navigation.navigate("Auth")
   }
   return (

@@ -43,6 +43,12 @@
         "projectId": "72f97652-f43c-406e-af1f-7a8e59623734"
       }
     },
-    "owner": "puskar12"
+    "owner": "puskar12",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/72f97652-f43c-406e-af1f-7a8e59623734"
+    }
   }
 }
