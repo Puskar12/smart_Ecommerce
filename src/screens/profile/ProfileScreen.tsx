@@ -56,7 +56,6 @@ const ProfileScreen = () => {
         />
         <ProfileSectionButton title={t("profile_logout")} onPress={handleLogout} />
       </View>
-      <LanguageBottomSheet />
     </AppSaveView>
   );
 };

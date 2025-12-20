@@ -13,7 +13,12 @@ import { I18nextProvider } from "react-i18next";
 import { PersistGate } from "redux-persist/integration/react";
 import { AppColors } from "./src/styles/colors";
 import { dataUploadInFirebase } from "./src/config/firebase";
+import LanguageBottomSheet from "./src/components/language/LanguageBottomSheet";
+import { SheetProvider, registerSheet } from "react-native-actions-sheet";
 
+
+
+registerSheet("LANG_SHEET", LanguageBottomSheet);
 export default function App() {
   const [fontsLoaded] = useFonts({
     "Orbitron-Bold": require("./src/assets/fonts/Orbitron-Bold.ttf"),
@@ -38,16 +43,17 @@ export default function App() {
     </View>
   } persistor={persistor}>
           <I18nextProvider i18n={i18n}>
-          <NavigationContainer>
-            <StatusBar 
-  style="dark"          // or "light" depending on your app background
-  backgroundColor={AppColors.background || "#ffffff"} // ensure contrast
-  translucent={false}   // prevents overlapping with content
-/>
-
-            <FlashMessage position={"top"} style={styles.flashContainer} />
-            <MainAppStack />
-          </NavigationContainer>
+          <SheetProvider>
+            <NavigationContainer>
+              <StatusBar 
+                style="dark"
+                backgroundColor={AppColors.background || "#ffffff"}
+                translucent={false}
+              />
+              <FlashMessage position={"top"} style={styles.flashContainer} />
+              <MainAppStack />
+            </NavigationContainer>
+          </SheetProvider>
         </I18nextProvider>
         </PersistGate>
       </Provider>

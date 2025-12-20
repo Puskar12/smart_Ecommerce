@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next";
 interface OrderItemProps {
   date: string;
   style?: object;
-  totalAmount: number;
-  totalPrice: string;
+  totalAmount: number | string;
+  totalPrice: string | number;
 }
 
 const OrderItem: React.FC<OrderItemProps> = ({
@@ -30,13 +30,13 @@ const OrderItem: React.FC<OrderItemProps> = ({
       <View style={styles.summaryContainer}>
         <View>
           <AppText>
-            {t("order_total_price")} {totalPrice}</AppText>
+            {t("order_total_price")} {Math.abs(Number(totalPrice)).toFixed(0)}</AppText>
           <AppText>
             {t("order_date")}{date}</AppText>
         </View>
         <View style={styles.amountContainer}>
-          <AppText style={styles.totalAmount}>₹ 
-            {Math.abs(totalAmount).toFixed(2)} 
+          <AppText style={styles.totalAmount}>{"₹ "}
+            {Math.abs(Number(totalAmount)).toFixed(0)} 
           </AppText>
           <AppText style={styles.date}>{date}</AppText>
         </View>

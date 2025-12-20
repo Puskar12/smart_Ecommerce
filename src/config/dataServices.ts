@@ -16,7 +16,13 @@ export const getProductsData = async() =>{
   }
 }
 
-export const fetchUSerOrders = async() =>{
+interface Order {
+  id: string;
+  createdAt: any;
+  totalProductsPricesSum: number;
+  totalPrice: number;
+}
+export const fetchUSerOrders = async(): Promise<Order[]> =>{
 try {
    const userIdFromFireBase = auth.currentUser?.uid
 
@@ -33,10 +39,10 @@ try {
    const orderList = querySnapshot.docs.map((doc)=>({
     id: doc.id,
     ...doc.data()
-   }))
+   })) as Order[];
     return orderList
 } catch (error) {
   console.log("error fetching orders", error);
-  
+  return [];
 }
 }

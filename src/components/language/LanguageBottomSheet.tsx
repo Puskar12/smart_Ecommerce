@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import AppText from '../texts/AppText'
 import AppButton from '../buttons/AppButton'
-import ActioSheet, { SheetManager } from 'react-native-actions-sheet'
+import ActionSheet, { SheetManager } from 'react-native-actions-sheet'
 import { s, vs } from 'react-native-size-matters'
 import RadioWithTitle from '../inputs/RadioWithTitle'
 import { sharedPaddingHorizontal } from '../../styles/sharedStyles'
@@ -25,7 +25,7 @@ const LanguageBottomSheet = () => {
  }
 
   return (
-    <ActioSheet id='LANG_SHEET'>
+    <ActionSheet id='LANG_SHEET'>
       <View style={styles.container}>
         <AppText style={{marginBottom: vs(20), textAlign:"center"}}>{t("change_language")}</AppText>
         {languagesArr.map((lang)=>(
@@ -33,7 +33,7 @@ const LanguageBottomSheet = () => {
         ))}
       <AppButton  title={t("checkout_confirm_button")} onPress={()=>{handleConfirm()}} />
       </View>
-    </ActioSheet>
+    </ActionSheet>
   )
 }
 

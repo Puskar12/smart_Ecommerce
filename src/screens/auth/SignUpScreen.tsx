@@ -34,7 +34,7 @@ const SignUpScreen = () => {
         .string()
         .required(t("sign_up_username_required"))
         .min(5, t("sign_up_username_min_length"))
-        .matches(/^[a-z A-Z]+$/, t("sign_up_username_format")),
+        .matches(/^[a-z A-Z 0-9]+$/, t("sign_up_username_format")),
       email: yup
         .string()
         .email(t("sign_up_email_invalid"))
