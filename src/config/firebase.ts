@@ -11,7 +11,7 @@ import { products } from '../data/products';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // use your own
+  //use your own 
 };
 
 // Initialize Firebase
